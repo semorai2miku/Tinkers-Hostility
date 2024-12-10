@@ -1,0 +1,180 @@
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+        maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '6.0.21+', changing: true
+        classpath 'org.spongepowered:mixingradle:0.7.+'
+    }
+}
+
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+}
+
+apply plugin: 'org.spongepowered.mixin'
+
+version = '1.19.2-1.0.0'
+group = 'com.semorai2miku.tinkershostility'
+
+base {
+    archivesName = 'tinkershostility'
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
+minecraft {
+    mappings channel: mapping_channel, version: mapping_version
+
+    copyIdeResources = true
+
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
+    runs {
+        configureEach {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'REGISTRIES'
+
+            property 'forge.logging.console.level', 'info'
+
+            property 'forge.enabledGameTestNamespaces', "tinkershostility"
+
+            mods {
+                tinkershostility {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        client {
+            property 'forge.enabledGameTestNamespaces', "tinkershostility"
+            //arg '-mixin.config=tinkershostility.mixins.json'
+        }
+
+        server {
+            property 'forge.enabledGameTestNamespaces', "tinkershostility"
+            args '--nogui'
+            //arg '-mixin.config=tinkershostility.mixins.json'
+        }
+
+        gameTestServer {
+            property 'forge.enabledGameTestNamespaces', "tinkershostility"
+            //arg '-mixin.config=tinkershostility.mixins.json'
+        }
+
+        data {
+            workingDirectory project.file('run-data')
+            //arg '-mixin.config=tinkershostility.mixins.json'
+            args '--mod', "tinkershostility", '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+    mavenLocal()
+    maven { // SlimeKnights and JEI
+        name 'DVS1 Maven FS'
+        url 'https://dvs1.progwml6.com/files/maven'
+    }
+    maven {
+        // location of the maven that hosts JEI files before January 2023
+        name = "Progwml6's maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        // location of the maven that hosts JEI files since January 2023
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
+    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
+    maven {
+        name = "CurseMaven"
+        url = "https://www.cursemaven.com/"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    flatDir {
+        dir 'libs'
+    }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    //runtimeOnly fg.deobf("curse.maven:<descriptor>-<projectid>:<fileids>")
+    //runtimeOnly fg.deobf("<group>:<artifact>:<version>")
+    //implementation fileTree(dir: 'libs', includes: ['*.jar'])
+    runtimeOnly fg.deobf("mezz.jei:jei-1.19.2-forge:${jei_version}")
+    runtimeOnly fg.deobf("curse.maven:biomancy-492939:5102762")
+    runtimeOnly fg.deobf("curse.maven:gekcolib-388172:4407241")
+    implementation fg.deobf("slimeknights.tconstruct:TConstruct:1.19.2-${tcon_version}")
+    implementation fg.deobf("slimeknights.mantle:Mantle:1.19.2-${mantle_version}")
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    var replaceProperties = [
+            minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
+            forge_version: forge_version, forge_version_range: forge_version_range,
+            loader_version_range: loader_version_range,
+            mod_id: "tinkershostility", mod_name: "Tinkers' Hostility", mod_license: mod_license, mod_version: mod_version,
+            mod_authors: mod_authors, mod_description: mod_description,
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
+    }
+}
+
+tasks.named('jar', Jar).configure {
+    manifest {
+        attributes([
+                'Specification-Title'     : "tinkershostility",
+                'Specification-Vendor'    : "semorai2miku",
+                'Specification-Version'   : '1', // We are version 1 of ourselves
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : project.jar.archiveVersion,
+                'Implementation-Vendor'   : "semorai2miku",
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "MixinConfigs": "tinkershostility.mixins.json",
+                'FMLAT':'accesstransformer.cfg'
+        ])
+    }
+
+    finalizedBy 'reobfJar'
+}
+
+publishing {
+    publications {
+        register('mavenJava', MavenPublication) {
+            artifact jar
+        }
+    }
+    repositories {
+        maven {
+            url "file://${project.projectDir}/mcmodsrepo"
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+/*mixin {
+    add sourceSets.main, "tinkershostility.refmap.json"
+}*/
+
