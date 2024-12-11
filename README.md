@@ -7,7 +7,9 @@
 解决匠魂模组前置问题  
 完成第一个测试物品添加
 完成创造模式物品栏功能
-添加第一个测试物品材质
+添加第一个测试物品材质  
+2024.12.11  
+完成第一个测试方块添加  
 echo "# Tinkers-Hostility" >> README.md  
 git init  
 git add README.md  
