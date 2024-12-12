@@ -7,6 +7,8 @@
   "item.tinkershostility.obsidian_ingot": "黑曜石锭",
   "item.tinkershostility.zircon": "锆石",
   "block.tinkershostility.zircon_block": "锆石块",
-  "block.tinkershostility.zircon_ore": "锆石矿",
-  "item.tinkershostility.obsidian_apple": "黑曜石苹果"
+  "block.tinkershostility.zircon_ore": "锆石矿石",
+  "item.tinkershostility.obsidian_apple": "黑曜石苹果",
+  "item.tinkershostility.raw_zircon": "锆石矿",
+  "block.tinkershostility.deepslate_zircon_ore": "深层锆石矿石"
 }

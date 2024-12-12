@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "tinkershostility:zircon_ore",
+    "tinkershostility:zircon_block",
+    "tinkershostility:obsidian_block",
+    "tinkershostility:deepslate_zircon_ore"
+  ]
+}

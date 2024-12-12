@@ -25,26 +25,33 @@ public class BlockInit {
 
 //    public static final RegistryObject<Block> obsidianBlock = BLOCKS.register("obsidian_Block",
 //            ()->new Block(BlockBehaviour.Properties.of(Material.STONE)
-//                    .strength(1.5F, 6.0F)
+//                    .strength(zircon_form_blasting_raw_zircon.json.5F, 6.0F)
 //                    .requiresCorrectToolForDrops()));
 
 //    public static final RegistryObject<Item> obsidian_Block = ItemInit.ITEMS.register("obsidian_Block",
 //            ()->new BlockItem(obsidianBlock.get(),new Item.Properties().tab(TinkersHostilityTab.blockTab)));
 
     public static final RegistryObject<Block> obsidianBlock = registerBlock("obsidian_block",
-            ()->new Block(BlockBehaviour.Properties.of(Material.STONE)
+            () -> new Block(BlockBehaviour.Properties.of(Material.STONE)
                     .strength(6f)
                     .requiresCorrectToolForDrops()),
             TinkersHostilityTab.blockTab);
     public static final RegistryObject<Block> zirconBlock = registerBlock("zircon_block",
-            ()->new Block(BlockBehaviour.Properties.of(Material.STONE)
+            () -> new Block(BlockBehaviour.Properties.of(Material.STONE)
                     .strength(6f)
                     .requiresCorrectToolForDrops()),
             TinkersHostilityTab.blockTab);
     public static final RegistryObject<Block> zirconOre = registerBlock("zircon_ore",
-            ()->new Block(BlockBehaviour.Properties.of(Material.STONE)
+            () -> new DropExperienceBlock(BlockBehaviour.Properties.of(Material.STONE)
                     .strength(6f)
-                    .requiresCorrectToolForDrops()),
+                    .requiresCorrectToolForDrops(),
+                    UniformInt.of(3,7)),
+            TinkersHostilityTab.blockTab);
+    public static final RegistryObject<Block> deepslateZirconOre = registerBlock("deepslate_zircon_ore",
+            () -> new DropExperienceBlock(BlockBehaviour.Properties.of(Material.STONE)
+                    .strength(6f)
+                    .requiresCorrectToolForDrops(),
+                    UniformInt.of(3,7)),
             TinkersHostilityTab.blockTab);
 
 

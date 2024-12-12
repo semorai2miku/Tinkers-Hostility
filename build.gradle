@@ -120,6 +120,8 @@ dependencies {
     runtimeOnly fg.deobf("mezz.jei:jei-1.19.2-forge:${jei_version}")
     runtimeOnly fg.deobf("curse.maven:biomancy-492939:5102762")
     runtimeOnly fg.deobf("curse.maven:gekcolib-388172:4407241")
+    runtimeOnly fg.deobf("curse.maven:jade-324717:4914105")
+    runtimeOnly fg.deobf("curse.maven:TConJEI-974154:5807273")
     implementation fg.deobf("slimeknights.tconstruct:TConstruct:1.19.2-${tcon_version}")
     implementation fg.deobf("slimeknights.mantle:Mantle:1.19.2-${mantle_version}")
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'

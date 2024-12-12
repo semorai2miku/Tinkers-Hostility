@@ -20,6 +20,8 @@ public class ItemInit {
             ()-> new Item(new Item.Properties().tab(TinkersHostilityTab.foodTab)));
     public static final RegistryObject<Item> zircon = ITEMS.register("zircon" ,
             () -> new Item(new Item.Properties().tab(TinkersHostilityTab.itemTab)));
+    public static final RegistryObject<Item> rawZircon = ITEMS.register("raw_zircon" ,
+            () -> new Item(new Item.Properties().tab(TinkersHostilityTab.itemTab)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
