@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "tinkershostility:obsidian_block"
+    }
+  ],
+  "result": {
+    "item": "tinkershostility:obsidian_ingot",
+    "count": 9
+  }
+}

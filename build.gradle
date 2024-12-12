@@ -15,6 +15,7 @@ plugins {
     id 'idea'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
 apply plugin: 'org.spongepowered.mixin'
@@ -30,7 +31,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
-    mappings channel: mapping_channel, version: mapping_version
+    mappings channel: 'parchment', version: '2022.08.14-1.19.2'
 
     copyIdeResources = true
 
@@ -122,6 +123,7 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:gekcolib-388172:4407241")
     runtimeOnly fg.deobf("curse.maven:jade-324717:4914105")
     runtimeOnly fg.deobf("curse.maven:TConJEI-974154:5807273")
+    runtimeOnly fg.deobf("curse.maven:AppleSkin-248787:3872808")
     implementation fg.deobf("slimeknights.tconstruct:TConstruct:1.19.2-${tcon_version}")
     implementation fg.deobf("slimeknights.mantle:Mantle:1.19.2-${mantle_version}")
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
